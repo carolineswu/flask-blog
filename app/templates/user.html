@@ -1,0 +1,58 @@
+{% extends "base.html" %} {% block app_content %}
+<table class="profile">
+  <tr valign="top">
+    <td class="img-container"><img src="{{ user.avatar(128) }}" /></td>
+    <td class="text-container">
+        <h1>{{ user.username }}'s profile</h1>
+        {% if user.about_me %}
+        <p>{{ user.about_me }}</p>
+        {% endif %}
+        {% if user.last_seen %}
+        <p>last seen: {{ user.last_seen }}</p>
+        {% endif %}
+        {% if user == current_user %}
+        <p><a href="{{ url_for('edit_profile') }}">edit your profile</a></p>
+        {% else %}
+          <p>
+            <form action="" method="post">
+                {{ follow_form.hidden_tag() }}
+                {% if not current_user.is_following(user) %}
+                  {{ follow_form.submit(value='Follow', class_='btn btn-default') }}
+                {% elif current_user.is_following(user) %}
+                  {{ follow_form.submit(value='Unfollow', class_='btn btn-default') }}
+                {% endif %}
+            </form>
+          </p>          
+        {% endif %}
+    </td>
+  </tr>
+</table>
+<hr />
+{% with followers = user.get_followers() %}
+<h2>{{ followers.count() }} followers:</h2>
+  {% for user in followers %}
+    {% include '_user_link.html' %}
+  {% endfor %}
+{% endwith %}
+<hr />
+{% with following = user.followed %}
+<h2>{{ following.count() }} following:</h2>
+  {% for user in following %}
+    {% include '_user_link.html' %}
+  {% endfor %}
+{% endwith %}
+<hr />
+<h2>{{ num_posts }} posts:</h2>
+{% for post in posts %}
+    {% include '_post.html' %}
+{% endfor %} 
+<div class="prev-next-nav">
+  {% if prev_url %}
+    <a href="{{ prev_url }}">&larr; newer posts</a>
+  {% endif %}
+  <span>| </span>
+  {% if next_url %}
+    <a href="{{ next_url }}">older posts &rarr;</a>
+  {% endif %}
+</div>
+{% endblock %}

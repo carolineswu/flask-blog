@@ -1,0 +1,33 @@
+.profile .img-container {
+  position: relative;
+}
+
+.profile img {
+  margin-right: 10px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.profile .text-container {
+    position: relative;
+    left: 58%
+  }
+
+.user-icon {
+  margin: 5px;
+}
+
+.user-icon img {
+  margin-right: 5px;
+}
+
+.user-icon span {
+  height: 36px;
+  line-height: 36px;
+  white-space: nowrap;
+}
+
+.prev-next-nav {
+    margin: 10px;
+}
